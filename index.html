@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Circuit Games</title>
+  <meta
+    name="description"
+    content="Neon Circuit Games is an independent game studio building futuristic indie games."
+  />
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg-soft: #0d1322;
+      --card: rgba(15, 24, 42, 0.78);
+      --text: #eef4ff;
+      --muted: #a8b3c7;
+      --line: rgba(255, 255, 255, 0.08);
+      --accent: #49e6ff;
+      --accent-2: #9b6bff;
+      --glow: 0 0 30px rgba(73, 230, 255, 0.18);
+      --radius: 18px;
+      --max: 1150px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(73, 230, 255, 0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(155, 107, 255, 0.12), transparent 30%),
+        linear-gradient(180deg, #05070d 0%, #070b14 50%, #060911 100%);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(100% - 2rem, var(--max));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 11, 20, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #04111f;
+      font-weight: 900;
+      box-shadow: var(--glow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #07111d;
+      box-shadow: var(--glow);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .button-secondary {
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+    }
+
+    .button-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero {
+      padding: 6rem 0 4rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(73, 230, 255, 0.06);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 380px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(73, 230, 255, 0.18), transparent 25%),
+        radial-gradient(circle at 70% 30%, rgba(155, 107, 255, 0.22), transparent 30%),
+        linear-gradient(180deg, rgba(13, 19, 34, 0.95), rgba(7, 11, 20, 0.95));
+      box-shadow: var(--glow);
+    }
+
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.45));
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(8px);
+    }
+
+    .orb-1 {
+      width: 170px;
+      height: 170px;
+      top: 70px;
+      right: 60px;
+      background: rgba(73, 230, 255, 0.32);
+    }
+
+    .orb-2 {
+      width: 140px;
+      height: 140px;
+      bottom: 70px;
+      left: 50px;
+      background: rgba(155, 107, 255, 0.3);
+    }
+
+    .hero-panel {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      padding: 1rem;
+      border-radius: 18px;
+      background: rgba(6, 10, 18, 0.76);
+      border: 1px solid var(--line);
+    }
+
+    .hero-panel-title {
+      font-size: 0.88rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-panel h3 {
+      margin: 0.4rem 0 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .hero-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    section {
+      padding: 2rem 0 4rem;
+    }
+
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header h2 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .project-visual {
+      aspect-ratio: 16 / 9;
+      background:
+        radial-gradient(circle at top left, rgba(73, 230, 255, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(155, 107, 255, 0.18), transparent 28%),
+        linear-gradient(135deg, #0d1322, #090d18);
+      display: grid;
+      place-items: center;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .project-body {
+      padding: 1.2rem;
+    }
+
+    .project-meta {
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(73, 230, 255, 0.08);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 1px solid rgba(73, 230, 255, 0.14);
+    }
+
+    .project-body h3 {
+      margin: 0 0 0.55rem;
+    }
+
+    .project-body p {
+      margin: 0 0 1rem;
+      color: var(--muted);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .about-item {
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--muted);
+    }
+
+    .contact-box {
+      text-align: center;
+      padding: 2rem;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top, rgba(73, 230, 255, 0.08), transparent 35%),
+        rgba(255,255,255,0.02);
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      max-width: 60ch;
+      margin: 0 auto 1.2rem;
+    }
+
+    footer {
+      padding: 1.5rem 0 2.5rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .cards,
+      .project-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 4rem;
+      }
+
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-card {
+        min-height: 300px;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-mark">NC</span>
+        <span>Neon Circuit Games</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#games">Games</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Independent Game Studio</span>
+          <h1>Building futuristic indie games with style and atmosphere.</h1>
+          <p>
+            Neon Circuit Games is an independent game studio focused on distinctive,
+            atmospheric experiences inspired by sci-fi, cyberpunk and modern arcade design.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#games">View Projects</a>
+            <a class="button button-secondary" href="#contact">Get in Touch</a>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="grid-overlay"></div>
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+
+          <div class="hero-panel">
+            <div class="hero-panel-title">Currently in Development</div>
+            <h3>First Studio Project</h3>
+            <p>
+              A new original title is in early development. Follow future updates,
+              screenshots and release information here.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <h2>What We Focus On</h2>
+          <p>
+            Small-scope, high-identity game concepts with strong visual direction,
+            solid gameplay foundations and a clear creative voice.
+          </p>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <h3>Atmosphere</h3>
+            <p>
+              Strong mood, clean presentation and memorable worldbuilding are part of every project.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Gameplay First</h3>
+            <p>
+              Systems and feel matter. Fast iteration and focused design guide development.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Independent Vision</h3>
+            <p>
+              Built as an independent studio with room for experimentation and long-term growth.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="games">
+      <div class="container">
+        <div class="section-header">
+          <h2>Projects</h2>
+          <p>
+            Replace these placeholders with your real games, screenshots, Steam links or trailers.
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-visual">Project One</div>
+            <div class="project-body">
+              <span class="project-meta">In Development</span>
+              <h3>Untitled Cyberpunk Project</h3>
+              <p>
+                A stylish indie title currently in early concept and prototype phase.
+                More details will be announced in the future.
+              </p>
+              <div class="project-links">
+                <a class="button button-secondary" href="#">Steam Soon</a>
+                <a class="button button-secondary" href="#">Devlog Soon</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual">Future Project</div>
+            <div class="project-body">
+              <span class="project-meta">Planned</span>
+              <h3>Next Prototype</h3>
+              <p>
+                Space reserved for future experiments, prototypes or secondary game concepts.
+              </p>
+              <div class="project-links">
+                <a class="button button-secondary" href="#">Coming Later</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <h2>About the Studio</h2>
+          <p>
+            Neon Circuit Games is being built step by step as an independent studio brand.
+            The goal is to create focused, polished games with a recognizable identity.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="card">
+            <h3>Studio Direction</h3>
+            <p>
+              The studio centers around modern game development, technical curiosity and
+              a strong interest in futuristic themes, systems and interactive design.
+            </p>
+
+            <div class="about-list">
+              <div class="about-item">Indie game development</div>
+              <div class="about-item">Sci-fi and cyberpunk aesthetics</div>
+              <div class="about-item">Prototype-driven iteration</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Tech Stack</h3>
+            <p>
+              This section can later list your engine, tools and platforms.
+              For example: Unity, Unreal Engine, Godot, Blender, FMOD or custom tooling.
+            </p>
+
+            <div class="about-list">
+              <div class="about-item">Engine: Add later</div>
+              <div class="about-item">Target platforms: Add later</div>
+              <div class="about-item">Status: Early studio foundation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <div class="section-header" style="margin-bottom: 1rem;">
+            <h2>Contact</h2>
+            <p>
+              Replace the placeholders below with your real contact details or social links.
+            </p>
+          </div>
+
+          <p>
+            For updates, collaboration requests or general inquiries:
+            <br />
+            <strong>hello@neoncircuitgames.com</strong>
+          </p>
+
+          <div class="hero-actions" style="justify-content: center;">
+            <a class="button button-primary" href="mailto:hello@neoncircuitgames.com">Send Email</a>
+            <a class="button button-secondary" href="#">Steam</a>
+            <a class="button button-secondary" href="#">YouTube</a>
+            <a class="button button-secondary" href="#">X / Twitter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span>© <span id="year"></span> Neon Circuit Games. All rights reserved.</span>
+      <span>Independent game development.</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
